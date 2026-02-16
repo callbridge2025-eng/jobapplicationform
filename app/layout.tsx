@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Location Form",
-  description: "Collect user details and location"
+  title: "Job Application Form",
+  description: "Submit your application details",
 };
 
 export default function RootLayout({
@@ -10,10 +10,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: "Arial, sans-serif" }}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        style={{
+          margin: 0,
+          fontFamily: "Poppins, sans-serif",
+          background: "linear-gradient(135deg, #667eea, #764ba2)",
+          minHeight: "100vh",
+        }}
+      >
         {children}
       </body>
     </html>
   );
 }
-
