@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Sheet1!A:F",
+      range: "Sheet1!A:G",   // 🔥 Updated range (A to G)
       valueInputOption: "RAW",
       requestBody: {
         values: [[
@@ -24,6 +24,7 @@ export async function POST(req: Request) {
           body.phone,
           body.latitude,
           body.longitude,
+          body.accuracy + " meters",   // 🔥 Accuracy added
           `https://maps.google.com/?q=${body.latitude},${body.longitude}`,
           new Date().toISOString()
         ]],
