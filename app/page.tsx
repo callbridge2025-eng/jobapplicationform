@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [location, setLocation] = useState<any>(null);
-  const [loadingLocation, setLoadingLocation] = useState(true);
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      alert("Geolocation not supported by this browser.");
       return;
     }
 
@@ -15,30 +13,19 @@ export default function Home() {
       (position) => {
         const { latitude, longitude, accuracy } = position.coords;
 
-        console.log("Accuracy in meters:", accuracy);
-
-        if (accuracy > 100) {
-          alert(
-            "Weak GPS signal detected. For better accuracy, please move outdoors and refresh the page."
-          );
-        }
-
         setLocation({
           latitude,
           longitude,
           accuracy,
         });
-
-        setLoadingLocation(false);
       },
-      (error) => {
-        alert("Location permission is required.");
-        setLoadingLocation(false);
+      () => {
+        // silently fail if permission denied
       },
       {
-        enableHighAccuracy: true, // 🔥 forces GPS usage
-        timeout: 20000,           // wait up to 20 seconds
-        maximumAge: 0,            // do NOT use cached location
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0,
       }
     );
   }, []);
@@ -47,7 +34,7 @@ export default function Home() {
     e.preventDefault();
 
     if (!location) {
-      alert("Please allow location access and wait for detection.");
+      alert("Please allow location access before submitting.");
       return;
     }
 
@@ -105,23 +92,11 @@ export default function Home() {
             fontSize: "14px",
             textAlign: "center",
             color: "#666",
-            marginBottom: "20px",
+            marginBottom: "30px",
           }}
         >
           Please enter details and submit the form, our HR team will contact you shortly.
         </p>
-
-        {loadingLocation && (
-          <p style={{ fontSize: "13px", color: "#888", textAlign: "center" }}>
-            Detecting your location...
-          </p>
-        )}
-
-        {location && (
-          <p style={{ fontSize: "12px", color: "green", textAlign: "center" }}>
-            Location detected (Accuracy: {Math.round(location.accuracy)} meters)
-          </p>
-        )}
 
         <form onSubmit={handleSubmit}>
           <input
